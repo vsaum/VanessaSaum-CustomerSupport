@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Ticket {
+    private int id;
     private String customerName;
     private String subject;
     private String ticketBody;
@@ -13,11 +14,20 @@ public class Ticket {
         attachments = new HashMap<>();
     }
 
-    public Ticket(String customerName, String subject, String ticketBody) {
+    public Ticket(int id, String customerName, String subject, String ticketBody) {
+        this.id = id;
         this.customerName = customerName;
         this.subject = subject;
         this.ticketBody = ticketBody;
         attachments = new HashMap<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCustomerName() {
