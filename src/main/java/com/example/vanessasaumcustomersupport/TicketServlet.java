@@ -60,23 +60,8 @@ public class TicketServlet extends HttpServlet {
     }
 
     private void listTickets(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-
-        out.println("<html><body><h2>Ticket List</h2>");
-        out.println("<a href=\"ticket?action=createTicket\">Create Ticket</a><br><br>");
-
-        if (ticketDB.isEmpty()) {
-            out.println("There are no tickets yet...");
-        } else {
-            for (int id : ticketDB.keySet()) {
-                Ticket ticket = ticketDB.get(id);
-                out.println("Ticket #" + id);
-                out.println(": <a href=\"ticket?action=viewTicket&ticketId=" + id + "\">");
-                out.println(ticket.getSubject() + "</a><br>");
-            }
-        }
-
-        out.println("</body></html>");
+        request.setAttribute("ticketDatabase", ticketDB);
+        request.getRequestDispatcher("WEB-INF/jsp/view/listTickets.jsp").forward(request, response);
     }
 
     private void createTicket(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -119,31 +104,13 @@ public class TicketServlet extends HttpServlet {
     }
 
     private void viewTicket(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
 
         int ticketId = Integer.parseInt(request.getParameter("ticketId"));
         Ticket ticket = getTicket(ticketId);
-
-        if (ticket != null) {
-            out.println("<html><body><h2>Ticket Details</h2>");
-            out.println("<b>ID:</b> " + ticket.getId() + "<br>");
-            out.println("<b>Customer Name:</b> " + ticket.getCustomerName() + "<br>");
-            out.println("<b>Subject:</b> " + ticket.getSubject() + "<br>");
-            out.println("<b>Ticket Body:</b> " + ticket.getTicketBody() + "<br>");
-            out.println("<b>Attachment:</b> " + ticket.getAttachment(1).getName() + "<br>");
-
-            if (ticket.getNumberOfAttachments() > 0) {
-                out.println("<a href=\"ticket?action=downloadAttachment&ticketId=" + ticket.getId() + "\">Download Attachment</a>");
-            }
-
-            out.println("<br><br><a href=\"ticket\">Back to Ticket List</a>");
-            out.println("</body></html>");
-        } else {
-            out.println("<html><body><h2>Ticket Not Found</h2>");
-            out.println("<a href=\"ticket\">Back to Ticket List</a>");
-            out.println("</body></html>");
+        request.setAttribute("ticket", ticket);
+        request.setAttribute("ticketId", ticketId);
+        request.getRequestDispatcher("WEB-INF/jsp/view/viewTicket.jsp").forward(request, response);
         }
-    }
 
     private void downloadAttachment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int ticketId = Integer.parseInt(request.getParameter("ticketId"));
@@ -167,21 +134,6 @@ public class TicketServlet extends HttpServlet {
     }
 
     private void showTicketForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-
-        out.println("<html><body><h2>Create Ticket</h2>");
-        out.println("<form method=\"post\" action=\"ticket\" enctype=\"multipart/form-data\">");
-        out.println("<input type=\"hidden\" name=\"action\" value=\"createTicket\">");
-        out.println("<label for=\"customerName\">Customer Name:</label><br>");
-        out.println("<input type=\"text\" id=\"customerName\" name=\"customerName\" required><br><br>");
-        out.println("<label for=\"subject\">Subject:</label><br>");
-        out.println("<input type=\"text\" id=\"subject\" name=\"subject\" required><br><br>");
-        out.println("<label for=\"ticketBody\">Ticket Body:</label><br>");
-        out.println("<textarea id=\"ticketBody\" name=\"ticketBody\" required></textarea><br><br>");
-        out.println("<label for=\"attachment\">Attachment:</label><br>");
-        out.println("<input type=\"file\" id=\"attachment\" name=\"attachment\"><br><br>");
-        out.println("<input type=\"submit\" value=\"Submit\">");
-        out.println("</form>");
-        out.println("</body></html>");
+        request.getRequestDispatcher("WEB-INF/jsp/view/ticketForm.jsp").forward(request, response);
     }
 }

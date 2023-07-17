@@ -16,4 +16,9 @@
         </jsp-property-group>
     </jsp-config>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/view/error.jsp</location>
+    </error-page>
+    
 </web-app>
