@@ -1,33 +1,22 @@
 package com.example.vanessasaumcustomersupport;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
 
-public class Ticket {
+public class Ticket implements Serializable {
     private int id;
     private String customerName;
     private String subject;
     private String ticketBody;
-    private Map<Integer, Attachment> attachments;
+    private Attachment attachment;
 
-    public Ticket() {
-        attachments = new HashMap<>();
-    }
+    public Ticket() { super(); }
 
-    public Ticket(int id, String customerName, String subject, String ticketBody) {
+    public Ticket(int id, String customerName, String subject, String ticketBody, Attachment attachment) {
         this.id = id;
         this.customerName = customerName;
         this.subject = subject;
         this.ticketBody = ticketBody;
-        attachments = new HashMap<>();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.attachment = attachment;
     }
 
     public String getCustomerName() {
@@ -54,19 +43,24 @@ public class Ticket {
         this.ticketBody = ticketBody;
     }
 
-    public void addAttachment(int index, Attachment attachment) {
-        attachments.put(index, attachment);
+    public Attachment getAttachment() { return attachment; }
+    public void setAttachment(Attachment attachment) {
+        this.attachment = attachment;
     }
 
-    public int getNumberOfAttachments() {
-        return attachments.size();
+    public boolean hasAttachment() {
+        return attachment.getName().length() > 0 && attachment.getContents().length > 0;
     }
 
-    public Attachment getAttachment(int index) {
-        return attachments.get(index);
-    }
-
-    public Map<Integer, Attachment> getAllAttachments() {
-        return attachments;
+    @Override
+    public String toString() {
+    return "Ticket{" +
+            "id='" + id + '\'' +
+            ", customerName='" + customerName +  '\'' +
+            ", subject='" + subject + '\'' +
+            ", ticketBody='" + ticketBody + '\'' +
+            ", attachment=" + attachment +
+            '}';
     }
 }
+

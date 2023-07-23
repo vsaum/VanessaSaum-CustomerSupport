@@ -1,7 +1,11 @@
 package com.example.vanessasaumcustomersupport;
 
-public class Attachment {
+import java.io.Serializable;
+import java.util.Arrays;
+
+public class Attachment implements Serializable {
     private String name;
+
     private byte[] contents;
 
     public String getName() {
@@ -18,5 +22,13 @@ public class Attachment {
 
     public void setContents(byte[] contents) {
         this.contents = contents;
+    }
+
+    @Override
+    public String toString() {
+        return "Attachment{" +
+                "name='" + name + '\'' +
+                ", contents=" + Arrays.toString(contents) +
+                '}';
     }
 }
