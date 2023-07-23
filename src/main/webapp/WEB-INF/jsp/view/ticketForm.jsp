@@ -13,7 +13,11 @@
     <textarea name="ticketBody" rows="5" cols="15" required></textarea><br><br>
     <b>Attachment:</b><br>
     <input type="file" name="file1"><br><br>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit"><br><br>
+
+    <a href="<c:url value='/login'>
+             <c:param name='logout'/>
+             </c:url>">Logout</a>
   </form>
 </body>
 </html>

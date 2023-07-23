@@ -12,6 +12,9 @@
         <c:choose>
             <c:when test="${ticketDatabase.size() == 0}">
                 <p>There are no ticket posts yet...</p>
+                <a href="<c:url value='/login'>
+                 <c:param name='logout'/>
+                 </c:url>">Logout</a>
             </c:when>
             <c:otherwise>
                 <c:forEach var="ticket" items="${ticketDatabase}">
@@ -21,6 +24,9 @@
                             <c:param name='ticketId' value='${ticket.key}' />
                         </c:url>"> <c:out value="${ticket.value.subject}"/></a><br>
                     <br>
+                    <a href="<c:url value='/login'>
+                 <c:param name='logout'/>
+                 </c:url>">Logout</a>
                 </c:forEach>
             </c:otherwise>
         </c:choose>

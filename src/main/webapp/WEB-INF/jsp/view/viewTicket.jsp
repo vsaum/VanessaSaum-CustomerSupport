@@ -17,7 +17,10 @@
             <c:param name='attachment' value='${ticket.attachment.name}'/>
         </c:url>"><c:out value="${ticket.attachment.name}"/></a>
     </c:if>
-    <br><a href="ticket">Return to ticket list</a>
+    <br><a href="ticket">Return to ticket list</a><br><br>
+        <a href="<c:url value='/login'>
+                 <c:param name='logout'/>
+                 </c:url>">Logout</a>
 
 </body>
 </html>
