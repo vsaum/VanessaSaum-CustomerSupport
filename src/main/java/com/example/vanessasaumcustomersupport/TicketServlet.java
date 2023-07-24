@@ -3,7 +3,6 @@ package com.example.vanessasaumcustomersupport;
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.*;
@@ -17,11 +16,6 @@ public class TicketServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("username") == null) {
-            response.sendRedirect("login");
-            return;
-        }
-
         String action = request.getParameter("action");
 
         if (action == null) {
@@ -46,12 +40,7 @@ public class TicketServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("username") == null) {
-            response.sendRedirect("login");
-            return;
-        }
-
-        String action = request.getParameter("action");
+       String action = request.getParameter("action");
 
         if (action == null) {
             action = "list";
@@ -128,7 +117,7 @@ public class TicketServlet extends HttpServlet{
             return;
         }
 
-            response.setHeader("Content-Disposition", "image; filename=" + attachment.getName());
+            response.setHeader("Content-Disposition", "attachment; filename=" + attachment.getName());
             response.setContentType("application/octet-stream");
 
             ServletOutputStream out = response.getOutputStream();
