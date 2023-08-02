@@ -3,21 +3,16 @@
 </head>
 <body>
   <h2>Create a new ticket</h2>
-  <form method="POST" action="ticket" enctype="multipart/form-data">
-    <input type="hidden" name="action" value="create">
-    Customer Name:<br>
-    <input type="text" name="customerName" required><br><br>
-    Subject:<br>
-    <input type="text" name="subject" required><br><br>
-    Ticket Body:<br>
-    <textarea name="ticketBody" rows="5" cols="15" required></textarea><br><br>
-    <b>Attachment:</b><br>
-    <input type="file" name="file1"><br><br>
-    <input type="submit" value="Submit"><br><br>
 
-    <a href="<c:url value='/login'>
-             <c:param name='logout'/>
-             </c:url>">Logout</a>
-  </form>
+  <form:form method="POST" action="create" modelAttribute="ticket" enctype="multipart/form-data">
+    <form:label path="subject">Subject: </form:label><br>
+    <form:input path="subject"/><br><br>
+    <form:label path="ticketBody">Ticket Body: </form:label><br>
+    <form:textarea path="ticketBody" rows="5" cols="15"/><br><br>
+    <b>Attachment:</b><br>
+    <input type="file" path="attachment"><br><br>
+    <input type="submit" value="Submit"><br><br>
+  </form:form>
+
 </body>
 </html>
