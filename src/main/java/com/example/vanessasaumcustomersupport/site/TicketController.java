@@ -4,10 +4,7 @@ import com.example.vanessasaumcustomersupport.Attachment;
 import com.example.vanessasaumcustomersupport.Ticket;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
@@ -58,6 +55,36 @@ public class TicketController {
 
         return new RedirectView("view/"+id, true, false);
 
+    }
+
+    @GetMapping("view/{ticketId}")
+    public ModelAndView viewTicket(Model model, @PathVariable("ticketId")int ticketId) {
+        Ticket ticket = ticketDB.get(ticketId);
+        if(ticket == null){
+            return new ModelAndView(new RedirectView("ticket/list", true, false));
+        }
+
+        model.addAttribute("ticketId", ticketId);
+        model.addAttribute("ticket", ticket);
+
+        return new ModelAndView("viewTicket");
+
+    }
+
+    @GetMapping("/{ticketId}/attachment/{attachment:.+}")
+    public View downloadAttachment(@PathVariable("ticketId")int ticketId, @PathVariable("attachment")String name){
+        Ticket ticket = ticketDB.get(ticketId);
+        if (ticket == null) {
+            return new RedirectView("listTickets", true, false);
+        }
+
+        Attachment attachment = ticket.getAttachment();
+        if (attachment == null) {
+            return new RedirectView("listTickets", true, false);
+
+        }
+
+        return new DownloadView(attachment.getName(), attachment.getContents());
     }
 
      public static class TicketForm {

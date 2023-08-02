@@ -10,13 +10,10 @@
     <p>Subject: <c:out value="${ticket.subject}"/></p>
     <p>Description: <c:out value="${ticket.ticketBody}"/></p>
     <c:if test="${ticket.hasAttachment()}">
-        <a href="<c:url value='/ticket' >
-            <c:param name='action' value='download' />
-            <c:param name='ticketId' value='${ticketId}' />
-            <c:param name='attachment' value='${ticket.attachment.name}'/>
-        </c:url>"><c:out value="${ticket.attachment.name}"/></a><br>
+        <a href="<c:url value='/ticket/${ticketId}/attachment/${ticket.attachment.name}' />">
+        <c:out value="${ticket.attachment.name}"/></a><br>
     </c:if>
-    <br><a href="ticket">Return to ticket list</a><br><br>
+    <br><a href="<c:url value='/ticket/list'/>">Return to ticket list</a><br><br>
         <a href="<c:url value='/login'>
                  <c:param name='logout'/>
                  </c:url>">Logout</a>

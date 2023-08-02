@@ -49,7 +49,7 @@ public class Ticket implements Serializable {
     }
 
     public boolean hasAttachment() {
-        return attachment.getName().length() > 0 && attachment.getContents().length > 0;
+        return attachment != null && attachment.getName().length() > 0 && attachment.getContents().length > 0;
     }
 
     @Override
