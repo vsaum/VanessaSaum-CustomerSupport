@@ -14,6 +14,7 @@
     <b>Attachment:</b><br>
     <form:input path="attachment" type="file"/><br><br>
     <input type="submit" value="Submit"><br><br>
+    <a href="<c:url value='/logout'/>">Logout</a>
   </form:form>
 
 </body>
