@@ -1,5 +1,7 @@
 package com.example.vanessasaumcustomersupport.site;
 
+import com.example.vanessasaumcustomersupport.entities.Attachment;
+
 import java.io.Serializable;
 
 public class Ticket implements Serializable {
