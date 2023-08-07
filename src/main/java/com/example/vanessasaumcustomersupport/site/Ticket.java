@@ -5,7 +5,7 @@ import com.example.vanessasaumcustomersupport.entities.Attachment;
 import java.io.Serializable;
 
 public class Ticket implements Serializable {
-    private int id;
+    private long id;
     private String customerName;
     private String subject;
     private String ticketBody;
@@ -13,12 +13,12 @@ public class Ticket implements Serializable {
 
     public Ticket() { super(); }
 
-    public Ticket(int id, String customerName, String subject, String ticketBody, Attachment attachment) {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
         this.id = id;
-        this.customerName = customerName;
-        this.subject = subject;
-        this.ticketBody = ticketBody;
-        this.attachment = attachment;
     }
 
     public String getCustomerName() {
