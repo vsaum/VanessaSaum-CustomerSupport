@@ -21,7 +21,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 @Configuration
-@EnableTransactionManagement(mode= AdviceMode.PROXY)
+@EnableTransactionManagement(mode = AdviceMode.PROXY)
 @ComponentScan (basePackages = "com.example.vanessasaumcustomersupport.site",
     excludeFilters = @ComponentScan.Filter(Controller.class))
 public class RootContextConfig implements TransactionManagementConfigurer {
@@ -31,8 +31,8 @@ public class RootContextConfig implements TransactionManagementConfigurer {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUsername("tomcat");
-        dataSource.setPassword("password123!");
+        dataSource.setUsername("root");
+        dataSource.setPassword("BATman15!");
         dataSource.setUrl("jdbc:mysql://localhost:3306/ticketdatabase");
 
         return dataSource();
