@@ -35,7 +35,7 @@ public class RootContextConfig implements TransactionManagementConfigurer {
         dataSource.setPassword("BATman15!");
         dataSource.setUrl("jdbc:mysql://localhost:3306/ticketdatabase");
 
-        return dataSource();
+        return dataSource;
     }
 
     @Bean

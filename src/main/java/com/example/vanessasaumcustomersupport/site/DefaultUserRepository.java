@@ -8,8 +8,7 @@ public class DefaultUserRepository extends GenericJpaRepository<Long, UserPrinci
 
     @Override
     public UserPrincipal getByUsername(String username) {
-        return this.entityManager.createQuery("SELECT u FROM UserPrincipal u WHERE u.username = :username",
-                UserPrincipal.class).setParameter("username", username).getSingleResult();
+        return this.entityManager.createQuery("SELECT u FROM UserPrincipal u WHERE u.username = :username", UserPrincipal.class).setParameter("username", username).getSingleResult();
     }
 }
 

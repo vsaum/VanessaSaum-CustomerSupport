@@ -1,7 +1,10 @@
 package com.example.vanessasaumcustomersupport.site;
 
+import com.example.vanessasaumcustomersupport.entities.UserPrincipal;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,17 +15,21 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
 import java.util.Hashtable;
 import java.util.Map;
 
 @Controller
 public class AuthenticationController {
-    public static final Map<String, String> userDB = new Hashtable<>();
-    static{
-        userDB.put("Vanessa", "1234");
-        userDB.put("Ted", "4321");
-        userDB.put("Ty", "0000");
-    }
+    //public static final Map<String, String> userDB = new Hashtable<>();
+    //static{
+        //userDB.put("Vanessa", "1234");
+       // userDB.put("Ted", "4321");
+       // userDB.put("Ty", "0000");
+    //}
+
+    @Inject
+    AuthenticationService authenService;
 
     @RequestMapping("logout")
     public View logout(HttpSession session) {
@@ -33,7 +40,7 @@ public class AuthenticationController {
 
     @GetMapping("login")
     public ModelAndView loginForm(Model model, HttpSession session) {
-        if (session.getAttribute("username") != null) {
+        if (UserPrincipal.getPrincipal(session) != null) {
             return new ModelAndView(new RedirectView("/ticket/list", true, false));
         }
         model.addAttribute("loginFailed", false);
@@ -45,25 +52,30 @@ public class AuthenticationController {
                                    Model model,
                                    HttpSession session,
                                    HttpServletRequest request) {
-        if (session.getAttribute("username") != null) {
+        if (UserPrincipal.getPrincipal(session) != null) {
             return new ModelAndView(new RedirectView("/ticket/list", true, false));
         }
 
-        String username = form.getUsername();
-        String password = form.getPassword();
+        Principal principal;
+            try {
+                principal = authenService.authenticate(form.getUsername(), form.getPassword());
+            }
+            catch (ConstraintViolationException e) {
+                return new ModelAndView("login");
+            }
+            if (principal == null) {
+                form.setPassword(null);
+                model.addAttribute("loginFailed", true);
+                model.addAttribute("loginForm", form);
 
-        if (username == null || password == null || !userDB.containsKey(username) ||
-                !password.equals(userDB.get(username))) {
-            model.addAttribute("loginFailed", true);
-            model.addAttribute("loginForm", form);
+                return new ModelAndView("login");
 
-            return new ModelAndView("login");
-        }
-
-        session.setAttribute("username", username);
+            }
+        UserPrincipal.setPrincipal(session,principal);
         request.changeSessionId();
         return new ModelAndView(new RedirectView("/ticket/list", true, false));
     }
+
     public static class LoginForm {
         private String username;
         private String password;
